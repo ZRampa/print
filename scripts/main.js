@@ -2982,7 +2982,7 @@ define("guiprocessmanager", ["require", "exports", "colorreductionmanagement", "
                             const txt = document.createElementNS(xmlns, "text");
                             txt.setAttribute("font-family", "Tahoma");
                             const nrOfDigits = (f.color + "").length;
-                            txt.setAttribute("font-size", (fontSize / nrOfDigits) + "");
+                            txt.setAttribute("font-size", fontSize * 50 / Math.sqrt(f.labelBounds.width * f.labelBounds.width + f.labelBounds.height * f.labelBounds.height) + "");
                             txt.setAttribute("dominant-baseline", "middle");
                             txt.setAttribute("text-anchor", "middle");
                             txt.setAttribute("fill", fontColor);
@@ -3063,13 +3063,13 @@ define("gui", ["require", "exports", "common", "guiprocessmanager", "settings"],
         settings.randomSeed = parseInt($("#txtRandomSeed").val() + "");
         settings.kMeansNrOfClusters = parseInt($("#txtNrOfClusters").val() + "");
         settings.kMeansMinDeltaDifference = parseFloat($("#txtClusterPrecision").val() + "");
-        settings.removeFacetsSmallerThanNrOfPoints = parseInt($("#txtRemoveFacetsSmallerThan").val() + "");
+        settings.removeFacetsSmallerThanNrOfPoints = parseInt($("#txtRemoveFacetsSmallerThan").val() + "") * 3.7;
         settings.maximumNumberOfFacets = parseInt($("#txtMaximumNumberOfFacets").val() + "");
         settings.nrOfTimesToHalveBorderSegments = parseInt($("#txtNrOfTimesToHalveBorderSegments").val() + "");
         settings.narrowPixelStripCleanupRuns = parseInt($("#txtNarrowPixelStripCleanupRuns").val() + "");
-        settings.resizeImageIfTooLarge = $("#chkResizeImage").prop("checked");
-        settings.resizeImageWidth = parseInt($("#txtResizeWidth").val() + "");
-        settings.resizeImageHeight = parseInt($("#txtResizeHeight").val() + "");
+        settings.resizeImageIfTooLarge = false;
+        settings.resizeImageWidth = 1
+        settings.resizeImageHeight = 1
         const restrictedColorLines = ($("#txtKMeansColorRestrictions").val() + "").split("\n");
         for (const line of restrictedColorLines) {
             const tline = line.trim();
@@ -3127,8 +3127,13 @@ define("gui", ["require", "exports", "common", "guiprocessmanager", "settings"],
                 const showLabels = $("#chkShowLabels").prop("checked");
                 const fill = $("#chkFillFacets").prop("checked");
                 const stroke = $("#chkShowBorders").prop("checked");
-                const sizeMultiplier = parseInt($("#txtSizeMultiplier").val() + "");
-                const fontSize = parseInt($("#txtLabelFontSize").val() + "");
+                let sizeMultiplier = parseFloat($("#txtSizeMultiplier").val() + "");
+                if (sizeMultiplier !== 0){
+                    sizeMultiplier = sizeMultiplier / processResult.facetResult.height;
+                } else if (sizeMultiplier === 0){
+                    sizeMultiplier = 1;
+                }
+                const fontSize = parseInt($("#txtLabelFontSize").val() + "") * 3.7;
                 const fontColor = $("#txtLabelFontColor").val() + "";
                 $("#statusSVGGenerate").css("width", "0%");
                 $(".status.SVGGenerate").removeClass("complete");

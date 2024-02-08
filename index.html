@@ -48,27 +48,6 @@
                 <ul class="collection">
                     <li class="collection-item">
                         <div class="row">
-                            <div class="col s3" style="margin-top: 34px;">
-                                <label>
-                                    <input id="chkResizeImage" type="checkbox" checked="checked" />
-                                    <span>Resize image larger than
-                                        <i class="material-icons tooltipped"
-                                            data-tooltip="If checked and the input image is larger than the given dimensions then it will be resized to fit but will maintain its ratio.">info</i>
-                                    </span>
-                                </label>
-                            </div>
-                            <div class="col s2">
-                                <label for="txtResizeWidth">width</label>
-                                <input id="txtResizeWidth" type="number" value="1024" min="1" class="validate">
-                            </div>
-                            <div class="col s2">
-                                <label for="txtResizeHeight">height</label>
-                                <input id="txtResizeHeight" type="number" value="1024" min="1" class="validate">
-                            </div>
-                        </div>
-                    </li>
-                    <li class="collection-item">
-                        <div class="row">
                             <div class="input-field col s2">
                                 <input id="txtNrOfClusters" type="number" value="16" min="1" class="validate">
                                 <label for="txtNrOfClusters">Number of colors
@@ -345,17 +324,16 @@
                 <div class="row">
                     <div class="col s3">
                         <div class="input-field">
-                            <input placeholder="SVG Size multiplier" id="txtSizeMultiplier" type="number" value="3"
-                                min="1" class="validate">
-                            <label for="txtSizeMultiplier">SVG size multiplier
+                            <input placeholder="Image height" id="txtSizeMultiplier" type="number" value="0">
+                            <label for="txtSizeMultiplier">Image height
                                 <i class="material-icons tooltipped"
-                                    data-tooltip="Increases the SVG size compared to the original image, useful when the labels don't fit inside the tiny segments">info</i>
+                                    data-tooltip="The width is automatically balanced in relation to the height, make to '0' to got the default size">info</i>
                             </label>
                         </div>
                     </div>
                     <div class="col s3">
                         <div class="input-field">
-                            <input placeholder="Label font size" id="txtLabelFontSize" type="number" value="50" min="1"
+                            <input placeholder="Label font size" id="txtLabelFontSize" type="number" value="2" min="1"
                                 max="100">
                             <label for="txtLabelFontSize">Label font size
                                 <i class="material-icons tooltipped"
