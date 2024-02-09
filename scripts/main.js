@@ -3127,7 +3127,7 @@ define("gui", ["require", "exports", "common", "guiprocessmanager", "settings"],
                 const showLabels = $("#chkShowLabels").prop("checked");
                 const fill = $("#chkFillFacets").prop("checked");
                 const stroke = $("#chkShowBorders").prop("checked");
-                let sizeMultiplier = parseFloat($("#txtSizeMultiplier").val() + "");
+                let sizeMultiplier = parseFloat($("#txtSizeMultiplier").val() + "") * 3.7;
                 if (sizeMultiplier !== 0){
                     sizeMultiplier = sizeMultiplier / processResult.facetResult.height;
                 } else if (sizeMultiplier === 0){
