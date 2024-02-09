@@ -378,8 +378,7 @@
 
       canvas.style.width = canvas.width+'px';
       canvas.style.height = canvas.height+'px';
-      canvas.width *= pixelRatio;
-      canvas.height *= pixelRatio;
+
 
       context.setTransform(pixelRatio,0,0,pixelRatio,0,0);
 
