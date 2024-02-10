@@ -290,6 +290,7 @@ define("settings", ["require", "exports"], function (require, exports) {
             this.resizeImageIfTooLarge = true;
             this.resizeImageWidth = 1024;
             this.resizeImageHeight = 1024;
+            this.heightmult = 0;
             this.randomSeed = new Date().getTime();
         }
     }
@@ -2650,21 +2651,17 @@ define("guiprocessmanager", ["require", "exports", "colorreductionmanagement", "
                 const c = document.getElementById("canvas");
                 const ctx = c.getContext("2d");
                 let imgData = ctx.getImageData(0, 0, c.width, c.height);
-                if (settings.resizeImageIfTooLarge && (c.width > settings.resizeImageWidth || c.height > settings.resizeImageHeight)) {
-                    let width = c.width;
-                    let height = c.height;
-                    if (width > settings.resizeImageWidth) {
-                        const newWidth = settings.resizeImageWidth;
-                        const newHeight = c.height / c.width * settings.resizeImageWidth;
-                        width = newWidth;
-                        height = newHeight;
-                    }
-                    if (height > settings.resizeImageHeight) {
-                        const newHeight = settings.resizeImageHeight;
-                        const newWidth = width / height * newHeight;
-                        width = newWidth;
-                        height = newHeight;
-                    }
+                console.log(settings.heightmult)
+                if (settings.heightmult !== 0) {
+                    let width = c.width * 2.835; // x2
+                    let height = c.height * 2.835; // x1
+
+                    let customHeight = settings.heightmult; //x3
+                    width = (customHeight * width) / height;
+                    height = customHeight;
+                    console.log(width, height);
+
+
                     const tempCanvas = document.createElement("canvas");
                     tempCanvas.width = width;
                     tempCanvas.height = height;
@@ -3063,13 +3060,14 @@ define("gui", ["require", "exports", "common", "guiprocessmanager", "settings"],
         settings.randomSeed = parseInt($("#txtRandomSeed").val() + "");
         settings.kMeansNrOfClusters = parseInt($("#txtNrOfClusters").val() + "");
         settings.kMeansMinDeltaDifference = parseFloat($("#txtClusterPrecision").val() + "");
-        settings.removeFacetsSmallerThanNrOfPoints = parseInt($("#txtRemoveFacetsSmallerThan").val() + "") * 3.7;
+        settings.removeFacetsSmallerThanNrOfPoints = parseInt($("#txtRemoveFacetsSmallerThan").val() + "") * 2.835;
         settings.maximumNumberOfFacets = parseInt($("#txtMaximumNumberOfFacets").val() + "");
         settings.nrOfTimesToHalveBorderSegments = parseInt($("#txtNrOfTimesToHalveBorderSegments").val() + "");
         settings.narrowPixelStripCleanupRuns = parseInt($("#txtNarrowPixelStripCleanupRuns").val() + "");
         settings.resizeImageIfTooLarge = false;
         settings.resizeImageWidth = 1
         settings.resizeImageHeight = 1
+        settings.heightmult = parseInt($("#txtSizeHeight").val() + "") * 2.835;
         const restrictedColorLines = ($("#txtKMeansColorRestrictions").val() + "").split("\n");
         for (const line of restrictedColorLines) {
             const tline = line.trim();
@@ -3127,13 +3125,13 @@ define("gui", ["require", "exports", "common", "guiprocessmanager", "settings"],
                 const showLabels = $("#chkShowLabels").prop("checked");
                 const fill = $("#chkFillFacets").prop("checked");
                 const stroke = $("#chkShowBorders").prop("checked");
-                let sizeMultiplier = parseFloat($("#txtSizeMultiplier").val() + "") * 3.7;
+                let sizeMultiplier = parseFloat($("#txtSizeMultiplier").val() + "") * 2.835;
                 if (sizeMultiplier !== 0){
                     sizeMultiplier = sizeMultiplier / processResult.facetResult.height;
                 } else if (sizeMultiplier === 0){
                     sizeMultiplier = 1;
                 }
-                const fontSize = parseInt($("#txtLabelFontSize").val() + "") * 3.7;
+                const fontSize = parseInt($("#txtLabelFontSize").val() + "") * 2.835;
                 const fontColor = $("#txtLabelFontColor").val() + "";
                 $("#statusSVGGenerate").css("width", "0%");
                 $(".status.SVGGenerate").removeClass("complete");
